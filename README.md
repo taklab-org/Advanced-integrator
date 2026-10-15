@@ -32,18 +32,32 @@ its numerical library. Use the appropriate BLAS/rounding configuration for the
 host. In particular, a successful scalar test alone does not establish matrix
 rounding correctness on Apple Accelerate.
 
-## Run all three from a terminal
+## Launch from MATLAB (no Python required)
 
-Python 3 is optional; this launcher uses its standard library only. Each
-example runs in a fresh MATLAB process, in sequence:
+Run this in MATLAB from the repository directory. The MATLAB launcher starts
+each example in a **separate fresh MATLAB process**, in sequence:
 
-```text
-python reproduce.py --intlab-root /path/to/INTLAB --case all --output /absolute/new/output
+```matlab
+summaries = reproduce('/path/to/INTLAB', '/absolute/new/output');
 ```
 
-Use `--matlab /path/to/matlab` when MATLAB is not on PATH. `--workers`,
-`--threads`, and `--client-threads` configure resource counts. Use `--smoke`
-for short GE kernel checks (the PBVP case still runs fully).
+To run only num7 or change resource counts:
+
+```matlab
+summaries = reproduce('/path/to/INTLAB', '/absolute/new/output', 'num7', ...
+    struct('Workers',4,'Threads',2,'ClientThreads',8));
+```
+
+Use `'num5'`, `'num7'`, `'pbvp'` or `'all'` (default). MATLAB is located from
+the current installation's `matlabroot`; `MatlabExecutable` optionally selects
+another installed executable. `Smoke=true` requests single-interval GE checks
+(PBVP still runs fully). `DryRun=true` checks the launch settings and all output
+directories without starting calculations or creating files.
+
+Each child receives its own preferences directory and the worker startup guard.
+Progress is in `<example>_launcher.log` and `<example>/run.log` below the output
+root. A nonzero exit or missing success certificate stops the sequence.
+The launching session's path, INTLAB state and environment are left unchanged.
 
 ## Run a complete example
 
@@ -151,6 +165,7 @@ Full GE runs can take many hours or days depending on CPU, memory and workers.
 ## Layout and attribution
 
 - `run_case.m`: portable entry point and strict result gates.
+- `reproduce.m`: MATLAB launcher for one or all three examples in fresh processes.
 - `cases/num5`, `cases/num7`, `cases/pbvp`: numerical kernels and problem inputs.
 - `runtime`: per-process INTLAB checks and process pool initialization.
 - `docs`: reference summaries, source identities and validation notes.
@@ -158,3 +173,11 @@ Full GE runs can take many hours or days depending on CPU, memory and workers.
 
 Original source comments, author credits and third-party notices are retained.
 See [NOTICE.md](NOTICE.md). INTLAB must be cited and licensed separately.
+
+The packaging audit and launcher tests also run in MATLAB:
+
+```matlab
+addpath('tests')
+check_package
+test_reproduce   % deliberately tests a failed child; does not run a proof
+```

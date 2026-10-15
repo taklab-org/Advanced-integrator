@@ -63,3 +63,19 @@ check all passed. No retained GE dependency was removed by that cleanup.
 The source inventory is in `release-files.json`. No full original datasets,
 runtime cache, archived process logs, or proprietary toolbox binaries are
 part of that inventory.
+
+## MATLAB launcher update (2026-10-16)
+
+The MATLAB-only launcher was exercised on Windows with MATLAB R2024b:
+three-example dry-run planning; early rejection of occupied output paths;
+paths containing spaces; actual fresh MATLAB child startup; propagation of
+a deliberately invalid INTLAB installation as a nonzero child failure; and
+unchanged environment/path/working directory in the parent session.
+
+The successful three-child sequence was tested using a private numerical
+entry-point fixture. Each child returned a distinct process ID and a fixture
+summary in num5/num7/PBVP order. These fixture success markers are test outputs,
+not mathematical proof certificates. The fixture is created in a temporary
+directory and removed after the tests; it is never used by the public runner.
+The launcher tests do not rerun the numerical proofs or extend the numerical
+validation claims above. The release audit is now `tests/check_package.m`.

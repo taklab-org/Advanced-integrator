@@ -35,6 +35,11 @@ Text line endings and trailing whitespace are normalized for Git distribution.
    summaries. The post-run GE check recomputes middle/terminal algebraic
    tests from the new local bounds. It does not import the original private
    final-inspection reports or pretend to repeat their entire archival audit.
+9. `reproduce.m` launches one or all three examples from MATLAB, each in a
+   fresh child process with its own preferences and explicit environment.
+   Commands are passed as argument arrays instead of shell-built strings.
+   The former Python launcher and Python packaging audit have been replaced
+   by MATLAB functions; neither running nor auditing the release needs Python.
 
 The fixed initial values are stored as 17-significant-digit MATLAB constants,
 so the original binary64 inputs round-trip. These constants are part of the
