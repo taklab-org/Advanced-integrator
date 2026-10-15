@@ -1,0 +1,19 @@
+# Generated calculations, interval caches, logs and figures never belong here.
+/outputs/
+*.mat
+*.log
+*.asv
+*.mex*
+*.dll
+*.so
+*.dylib
+*.fig
+*.png
+*.pdf
+*.zip
+*.7z
+*.tmp
+**/jobs/
+**/prefs/
+**/__pycache__/
+.DS_Store
