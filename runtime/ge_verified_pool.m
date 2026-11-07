@@ -10,10 +10,8 @@ caseRoot=getenv('AI_CASE_ROOT');runtime=fileparts(mfilename('fullpath'));
 % Full startup fallback is serialized, so workers never write a shared cache
 % concurrently. A reviewed minimum initializer is used if installed.
 spmd
- restoredefaultpath;addpath(runtime,'-begin');
- ai_add_case_paths(caseRoot);addpath(runtime,'-begin');
  for owner=1:numlabs
-  if labindex==owner,record=ai_worker_init(E.clientReport,o.Threads);end
+  if labindex==owner,record=ai_worker_init(E.clientReport,o.Threads,caseRoot,runtime);end
   labBarrier;
  end
 end

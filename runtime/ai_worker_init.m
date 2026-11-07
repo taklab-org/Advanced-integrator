@@ -1,4 +1,9 @@
-function report=ai_worker_init(clientReport,threads)
+function report=ai_worker_init(clientReport,threads,caseRoot,runtime)
+% Path changes run in this function workspace, outside the transparent spmd body.
+if nargin>=4
+ restoredefaultpath;addpath(runtime,'-begin');
+ ai_add_case_paths(caseRoot);addpath(runtime,'-begin');
+end
 maxNumCompThreads(threads);
 global INTLAB_CONST
 assert(isempty(INTLAB_CONST),'A worker startup file initialized INTLAB unexpectedly.');

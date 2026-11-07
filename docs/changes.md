@@ -45,3 +45,23 @@ The fixed initial values are stored as 17-significant-digit MATLAB constants,
 so the original binary64 inputs round-trip. These constants are part of the
 problem definition. This precision requirement for the *input* must not be
 confused with bitwise matching of computed error enclosures across machines.
+
+
+## 2026-11-06 variational correction
+
+See [variational-v2-correction.md](variational-v2-correction.md). Earlier numerical
+results are historical; the corrected-revision runs and fresh-process inspection passed.
+
+The 2026-11-06 Windows GE restart exposed a MATLAB spmd workspace-transparency
+error before Phase 2. Worker path changes now execute inside ai_worker_init,
+with the same initialization and enclosure checks. A fresh two-process pool
+regression is required before the GE restart. This is a startup fix, not a
+change in the mathematical estimates.
+
+Corrected clean-run results now replace the historical values as the current
+reference in results.md. num7 recomputes 128 finite steps to t=8, followed by
+69 middle steps with m=[12,12] and maximum h=0.1, then the terminal test at
+14.9. No truncation, test threshold or problem parameter was adjusted to make
+a test pass. Runtime-only failures before the GE runs are documented separately
+from numerical proof results. The package remains source-only; INTLAB and
+computed data are excluded. These changes have not been pushed automatically.

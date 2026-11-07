@@ -29,7 +29,7 @@ if ~exist('lambda','var')
 end
 
 % Create closure for mu_k_dcCH: capture epsilon and sigma
-mu_k_func = @(N, ~, L_arg) mu_k_dcCH(N, epsilon, sigma, L_arg);
+mu_k_func = @(N, ~, L_arg) mu_k_dcCH(N, intval(epsilon), intval(sigma), L_arg);
 
 % Pack epsilon and sigma as lambda parameter (not used by mu_k_func due to closure)
 [Psi, r, Y_0, Z_0, Z_1] = rig_variational_cheb(ba, m, Nop_coeff, h, [epsilon, sigma], nu, L, mu_k_func);

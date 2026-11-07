@@ -3,7 +3,7 @@ addpath(c);
 [~,name]=fileparts(c);
 if strcmp(name,'pbvp')
  dirs={'defect','defect/Chebyshev','High_Dim_Cosine_Conv', ...
-  'CodeVariational','verify_solution','saddle2saddle_connexion'};
+  'CodeVariational_v2','verify_solution','saddle2saddle_connexion'};
 else
  dirs={'defect','defect/Chebyshev','High_Dim_Conv','CodeVariational_v2','verify_solution'};
 end

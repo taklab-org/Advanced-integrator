@@ -1,4 +1,9 @@
-# Validation performed while packaging (2026-10-15)
+# Validation record
+
+The corrected full runs and independent inspection are recorded in the final
+section below. The packaging observations immediately below are historical.
+
+## Validation performed while packaging (2026-10-15)
 
 Host: Windows, MATLAB R2024b Update 5, INTLAB V13, Intel MKL with CNR AVX2.
 These observations do not claim that another host or BLAS has been tested.
@@ -79,3 +84,37 @@ not mathematical proof certificates. The fixture is created in a temporary
 directory and removed after the tests; it is never used by the public runner.
 The launcher tests do not rerun the numerical proofs or extend the numerical
 validation claims above. The release audit is now `tests/check_package.m`.
+
+
+## 2026-11-06 variational correction
+
+See [variational-v2-correction.md](variational-v2-correction.md). Earlier numerical
+results are historical; complete corrected-revision validation is recorded below.
+
+
+## Corrected revision: completed full runs and independent inspection
+
+PBVP, num5 and num7 all passed on 2026-11-06; see results.md for numbers,
+run scope, timings and hashes. Low-order enlarged-window diagnostics and the
+fresh two-worker initialization regression passed before production. The
+low-order double diagnostics are not substitutes for the interval proofs.
+
+GE regenerated Phase 2 and Phase 3, passed the source/data audit and all five
+final flags, and checked strict terminal Pr<0 and Z<1. A fresh 20-thread client
+passed scalar rounding and 512/2352 matrix-enclosure checks, then reread all GE
+proof records and recomputed the saved middle-step algebra and terminal tests.
+Every accepted state and its history matched; all local Schur and Neumann
+conditions passed. This inspection checks stored local evidence and downstream
+algebra; it does not independently regenerate every GE local bound.
+
+PBVP was independently revalidated from its saved Newton candidate, including
+all four local variational steps. Its radii, Y and Z matched the saved result.
+The X-norm checks use every time step, and all three Z components include their
+phase terms. The full-path and endpoint defects were checked separately.
+
+All 612 frozen MATLAB sources remained unchanged during the GE campaign and
+inspection. The original PBVP source manifest differs only in the three later
+startup repairs (ai_worker_init, ge_verified_pool and intlab_worker_start);
+its mathematical sources are unchanged. All result SHA-256 values remained
+unchanged. Input parameters preserve the original binary64 values.
+No computation or inspection process remained active at final readback.

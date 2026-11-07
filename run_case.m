@@ -42,7 +42,7 @@ try
  ai_write_json(fullfile(out,'configuration.json'),struct('example',name,'options',options, ...
   'MATLAB',version,'BLAS',version('-blas'),'platform',computer));
  if strcmp(name,'pbvp')
-  % PBVP retains its recorded Chebyshev kernel; the independent-column
+  % PBVP uses the corrected v2 variational bounds; the independent-column
   % shadow belongs to the GE cases only.
   addpath(fullfile(getenv('AI_CASE_ROOT'),'defect','Chebyshev'),'-begin');
   ai_generate_pbvp(out);

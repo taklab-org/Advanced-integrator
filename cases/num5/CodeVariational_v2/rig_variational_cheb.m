@@ -37,7 +37,7 @@ num_sp = prod(m);
 
 % Compute eigenvalues
 c_dummy = zeros([m, n_cheb]);
-mu_k_full = mu_k_func(size(c_dummy)-1, lambda, L_sp);
+mu_k_full = mu_k_func(size(c_dummy)-1, intval(lambda), intval(L_sp));
 
 idx_cell = cell(1, length(m));
 for d = 1:length(m)
@@ -48,20 +48,20 @@ mu_k_sp = mu_k_full(idx_cell{:});
 mu_k_sp = reshape(mu_k_sp, [], 1);
 
 if use_shift
-    lambda_sup = max(mu_k_sp);
+    lambda_sup = max(mid(mu_k_sp));
 else
     lambda_sup = 0;
 end
 
 if isscalar(m)
-    mu_k_sp_md = mu_k_sp;
+    mu_k_sp_md = mid(mu_k_sp);
 else
-    mu_k_sp_md = reshape(mu_k_sp, m);
+    mu_k_sp_md = reshape(mid(mu_k_sp), m);
 end
 
 % Build operators (double precision for Newton)
 disp('=== Building operators (double) ===');
-[L_full, Lam_full, ~] = build_Lk_full(mu_k_sp, h, n_cheb, use_shift);
+[L_full, Lam_full, ~] = build_Lk_full(mid(mu_k_sp), h, n_cheb, use_shift);
 DQ_full = build_DQ_func(mu_k_sp_md, Nop_coeff, a_bar, h, n_cheb, lambda_sup, L_sp);
 
 % =========================================================================

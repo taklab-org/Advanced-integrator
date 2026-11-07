@@ -15,6 +15,9 @@ runtimeRoot = clientReport.intlabRoot;
 minimumPath = fullfile(runtimeRoot,'startintlab_minimum.m');
 assert(isfile(minimumPath) && isfile(clientReport.cachePath), ...
     'intlabStartup:MissingCache','A reviewed minimum initializer and prebuilt cache are required.');
+% Make the saved interval classes available before inspecting cache metadata.
+% Adding class paths does not initialize INTLAB or write its cache.
+addpath(runtimeRoot,fullfile(runtimeRoot,'intval'),'-begin');
 cacheBefore = readCache(clientReport.cachePath);
 cacheMetaBefore = dir(clientReport.cachePath);
 saved = load(clientReport.cachePath,'INTLAB_CONST');
