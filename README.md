@@ -212,7 +212,7 @@ The current revision makes the following changes:
   projecting.
 - The `Z` bound uses `P K P` on a larger window, with a certified remainder for
   the finite section.
-- The eigenvalues used in the interval proof are now obtained by INTLAB.
+- The eigenvalues used in the interval proof are now evaluated with INTLAB.
 - PBVP now selects `CodeVariational_v2`. The old `cases/pbvp/CodeVariational`
   tree remains in the repository for reference, but is no longer on the PBVP
   path.

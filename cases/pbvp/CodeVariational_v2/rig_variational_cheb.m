@@ -11,14 +11,14 @@ function [Psi, r, Y_0, Z_0, Z_1] = rig_variational_cheb(ba, m, Nop_coeff, h, lam
 %     Nop_coeff       : nonlinear operator coefficients
 %     h               : time step
 %     lambda          : physical parameter (passed to mu_k_func)
-%     nu              : weight parameter (kept for interface, unused in bounds)
+%     nu              : Chebyshev weight; only nu=1 is certified
 %     L_sp            : spatial frequency scaling
 %     mu_k_func       : function handle for eigenvalues
 %     build_DQ_func   : (optional) double DQ builder, default @build_DQ_full
 %     build_DQ_int_func: (optional) interval DQ builder, default @build_DQ_full_int
-%     use_shift       : (optional, default true) If false, skip lambda_sup shift.
-%                        For LINEAR variational equations (Z_2=0), no-shift
-%                        is valid and reduces ||DQ|| by removing lambda_sup*I.
+%     use_shift       : (optional, default true) Must be true for the certified
+%                        shifted Ohta-Kawasaki bounds. compute_bounds_cheb
+%                        rejects false with AI:ShiftRequired.
 
 if ~exist('build_DQ_func', 'var') || isempty(build_DQ_func)
     build_DQ_func = @build_DQ_full;

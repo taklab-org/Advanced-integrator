@@ -20,8 +20,9 @@ Text line endings and trailing whitespace are normalized for Git distribution.
    original full-138 restriction or a saved parent's terminal radius.
 5. For GE, the successful independent-column `chebmag` implementation is reused in
    process pools. Arithmetic inside each column is unchanged; output columns
-   are collected in index order. PBVP retains its own recorded serial
-   Chebyshev kernel. Parallel counts are options.
+   are collected in index order. PBVP uses its serial `chebmag` helper
+   together with the corrected `CodeVariational_v2` variational verifier.
+   Parallel counts are options.
 6. PBVP's input MAT-file load is redirected to a fresh output directory. A
    new numerical generator constructs the origin's four mode eigenvectors,
    recomputes the target approximation and stable eigenspace, refines the
@@ -66,3 +67,10 @@ a test pass. Runtime-only failures before the GE runs are documented separately
 from numerical proof results. The package remains source-only; INTLAB and
 computed data are excluded. The corrected implementation and results were
 published on origin/main in commit `48097d0`.
+
+Documentation and source cleanup after the corrected runs: the variational
+interface comments now state that only use_shift=true and weight nu=1 are
+certified. The unused verify_evolutionop.m and verify_local_existence.m files
+were removed from all three case trees: they had no callers in the distributed
+code and depended on obsolete interfaces. These changes do not alter the
+executed numerical formulas or the saved validation results.
