@@ -64,4 +64,5 @@ reference in results.md. num7 recomputes 128 finite steps to t=8, followed by
 14.9. No truncation, test threshold or problem parameter was adjusted to make
 a test pass. Runtime-only failures before the GE runs are documented separately
 from numerical proof results. The package remains source-only; INTLAB and
-computed data are excluded. These changes have not been pushed automatically.
+computed data are excluded. The corrected implementation and results were
+published on origin/main in commit `48097d0`.

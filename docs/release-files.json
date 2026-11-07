@@ -17,7 +17,7 @@
   },
   {
     "path": "README.md",
-    "sha256": "bca1be8fe7db541cdf47018e35c3f7a5f788061ee685171c3f0989ec44bc3415"
+    "sha256": "66114c2e7e643ea0512326c945def32ffc2ab23ff8ce4d6b350859b9f662dfe0"
   },
   {
     "path": "cases/num5/CodeVariational/DF_lin_fin_dim.m",
@@ -2381,7 +2381,7 @@
   },
   {
     "path": "docs/changes.md",
-    "sha256": "19210e8ccab9389bb723230bebf54a305725cf261379237a76fbb2ca4b04fed5"
+    "sha256": "9ac59166312fd53199a5b856a43dc7c3b6cd0153aa9754581ef04ae990011094"
   },
   {
     "path": "docs/excluded-development-files.json",

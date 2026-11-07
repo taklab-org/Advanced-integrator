@@ -140,12 +140,12 @@ initial coefficients, truncations, endpoint time and strict mathematical
 inequalities. Never replace those inequalities with closeness to reference
 numbers, nor set a certificate flag to true merely to match a table.
 
-Historical results and their provenance are summarized in
-[docs/results.md](docs/results.md). The latest recorded num7 result used a
-full-138 restriction at t=8; the public entry deliberately implements the
-requested direct-128 proof. Consequently its radii and step count can differ
-even on the original machine. See [docs/validation.md](docs/validation.md) for
-which publication paths were actually exercised during packaging.
+Current corrected results and their provenance are summarized in
+[docs/results.md](docs/results.md). The latest num7 result was computed directly
+to t=8 with 128 finite steps, followed by 69 middle steps and the terminal test
+at t=14.9. The earlier full-138 restriction at t=8 is retained only as a
+historical result. See [docs/validation.md](docs/validation.md) for the scope of
+the corrected full runs and the separate fresh-process inspection.
 
 ## Single-interval installation/kernel check
 
@@ -157,8 +157,10 @@ run_case('num7','/path/to/INTLAB','/absolute/output/smoke', ...
 This regenerates **one real Phase 2 and Phase 3 interval** and audits it. It
 does not prove the full example; `summary.json` explicitly says `smoke_only`.
 The near-origin interval bounds can be slow even for one interval; this is
-not a fixed-duration test. The packaging task did not complete this diagnostic
-to the end; see the precise validation scope below.
+not a fixed-duration test. During the original October 2026 packaging task,
+this standalone diagnostic was not completed. The corrected full GE runs were
+subsequently completed in November 2026; see
+[docs/validation.md](docs/validation.md) for the validation scope.
 For PBVP use the full entry point, which is much smaller than the GE runs.
 Full GE runs can take many hours or days depending on CPU, memory and workers.
 
@@ -181,3 +183,49 @@ addpath('tests')
 check_package
 test_reproduce   % deliberately tests a failed child; does not run a proof
 ```
+
+## Correction history
+
+**Results obtained before the 2026-11-06 correction do not certify the current
+revision.** Use the values in [docs/results.md](docs/results.md) instead.
+
+In November 2026, Prof. Piotr Kalita reported that `N_op_lin_int`, the interval
+routine for the linearized nonlinearity in the PBVP variational code, never
+read the nonzero coefficient of the cubic term. A linear index into the
+coefficient array selected a zero entry, so the routine dropped the term
+`-3u^2 v`. We confirmed the report. The interval computation for PBVP had
+validated the variational equation without this term, so the earlier PBVP
+enclosure did not establish the claimed bound for the true variational equation.
+The floating-point Newton candidate was not affected, and neither were the
+`num5` and `num7` computations, which use a separate variational code
+(`CodeVariational_v2`).
+
+We then moved PBVP to `CodeVariational_v2` and audited that code. The audit
+found a separate error in the bounds, which affected all three examples: the
+`Y` and `Z` estimates used finite-section quantities and omitted the feedback
+from the Chebyshev tail into the finite rows. In low-order tests, the computed
+radius could fall below the true error.
+
+The current revision makes the following changes:
+
+- The `Y` bound applies the inverse to the full supported residual before
+  projecting.
+- The `Z` bound uses `P K P` on a larger window, with a certified remainder for
+  the finite section.
+- The eigenvalues used in the interval proof are now obtained by INTLAB.
+- PBVP now selects `CodeVariational_v2`. The old `cases/pbvp/CodeVariational`
+  tree remains in the repository for reference, but is no longer on the PBVP
+  path.
+
+PBVP, `num5` and `num7` were then recomputed from the public input data, with
+no truncation, test threshold or problem parameter adjusted to make a test
+pass. All strict validation checks passed, followed by a separate
+fresh-process inspection. See
+[docs/variational-v2-correction.md](docs/variational-v2-correction.md) for the
+correction, [docs/results.md](docs/results.md) for the new values, and
+[docs/validation.md](docs/validation.md) for the scope of the inspection.
+
+## Acknowledgments
+
+We thank Prof. Piotr Kalita (Jagiellonian University) for carefully reading the code
+and for reporting the issue in the variational equation code.
